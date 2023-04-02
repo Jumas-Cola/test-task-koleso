@@ -9,11 +9,41 @@ class WeatherApiService
      */
     protected $apiKey;
 
-    protected string $basePath = 'http://api.weatherapi.com/v1/';
+    protected string $basePath = 'https://api.weatherapi.com/v1/';
 
     public function __construct(string $apiKey)
     {
         $this->apiKey = $apiKey;
+    }
+
+    /**
+     * Curl request
+     *
+     * @param string $url URL
+     *
+     * @throws Error
+     *
+     * @return array Response data
+     */
+    protected function curlRequest(string $url): array
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        $result=curl_exec($ch);
+        curl_close($ch);
+
+        if (curl_errno($ch)) {
+            $errorMsg = curl_error($ch);
+        }
+
+        if (isset($errorMsg)) {
+            throw new \Error($errorMsg);
+        }
+
+        return json_decode($result, true);
     }
 
     /**
@@ -41,12 +71,8 @@ class WeatherApiService
 
         $url = $this->basePath . "forecast.json?" . http_build_query($params);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        $result=curl_exec($ch);
-        curl_close($ch);
+        $result = $this->curlRequest($url);
 
-        return json_decode($result, true);
+        return $result;
     }
 }

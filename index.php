@@ -7,8 +7,7 @@ require('vendor/autoload.php');
 
 $city = readline('Enter a city: ');
 
-$apiKey = '2ae5b7edeaab438a90d202554230104';
-
+$apiKey = getenv('API_KEY');
 $apiService = new WeatherApiService($apiKey);
 
 $data = $apiService->forecast($city, 2);
