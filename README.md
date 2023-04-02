@@ -45,7 +45,7 @@ docker run -it --rm -v "$PWD":/usr/src/koleso \
 > weather - погода  
 
 
-- GET /weather?city=<city_id>&date=<date>
+- GET /weather?city={city_id}&date={date}  
 
 Описание:
 > city_id - идентификатор города, для которого будут получены данные о погоде  
