@@ -25,3 +25,28 @@ docker run -it --rm -v "$PWD":/usr/src/koleso \
 > Enter a city: London
 > Processed city London | Patchy rain possible - Patchy rain possible
 ```
+
+## Шаг 2
+
+- POST /weather
+  Данные json:
+
+```
+{
+    'city_id': int,
+    'date': string,
+    'weather': string
+}
+```
+
+Описание:
+city_id - идентификатор города, для которого сохраняются данные о погоде
+date - дата, погода для которой сохраняется
+weather - погода
+
+
+- GET /weather?city=<city_id>&date=<date>
+
+Описание:
+city_id - идентификатор города, для которого будут получены данные о погоде
+date - дата в формате 2023-04-02, для которой будут получены данные о погоде
